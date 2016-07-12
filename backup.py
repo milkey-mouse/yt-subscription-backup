@@ -29,14 +29,12 @@ def add_subscription(youtube, channel_id):
 youtube = get_authenticated_service()
 
 with open("channels.txt", "w") as channels:
-    pt = None
-    while True:
-        request = youtube.subscriptions().list(part='snippet', mine=True, pageToken=pt).execute()
-        for channel in request["items"]:
+    subscriptions = youtube.subscriptions()
+    request = subscriptions.list(part='snippet', mine=True)
+    while request is not None:
+        result = request.execute()
+        for channel in result["items"]:
             channels.write(channel["snippet"]["resourceId"]["channelId"])
             channels.write("\n")
             print(channel["snippet"]["resourceId"]["channelId"], "({})".format(channel["snippet"]["title"]))
-        try:
-            pt = request["nextPageToken"]
-        except:
-            break
+        request = subscriptions.list_next(request, result)
