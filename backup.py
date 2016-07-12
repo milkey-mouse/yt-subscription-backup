@@ -1,4 +1,3 @@
-import progressbar
 import httplib2
 
 from apiclient.discovery import build
@@ -36,5 +35,6 @@ with open("channels.txt", "w") as channels:
         for channel in result["items"]:
             channels.write(channel["snippet"]["resourceId"]["channelId"])
             channels.write("\n")
-            print(channel["snippet"]["resourceId"]["channelId"], "({})".format(channel["snippet"]["title"]))
+            print(channel["snippet"]["resourceId"]["channelId"],
+                  "({})".format(channel["snippet"]["title"]))
         request = subscriptions.list_next(request, result)
