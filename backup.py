@@ -38,6 +38,6 @@ with open("channels.txt", "w") as channels:
             try:
                 print(channel["snippet"]["resourceId"]["channelId"],
                       "({})".format(channel["snippet"]["title"]))
-            except UnicodeDecodeError:  # for stupid terminals that dont do Unicode
+            except UnicodeEncodeError:  # for stupid terminals that dont do Unicode
                 print(channel["snippet"]["resourceId"]["channelId"])
         request = subscriptions.list_next(request, result)
